@@ -30,15 +30,15 @@ ActiveRecord::Schema.define(version: 20131202114807) do
 
   add_index "posts", ["id"], name: "index_posts_on_id"
 
-  create_table "replies", force: true do |t|
+  create_table "relationships", force: true do |t|
     t.integer  "from_id"
     t.integer  "to_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "replies", ["from_id"], name: "index_replies_on_from_id"
-  add_index "replies", ["id"], name: "index_replies_on_id"
-  add_index "replies", ["to_id"], name: "index_replies_on_to_id"
+  add_index "relationships", ["from_id"], name: "index_relationships_on_from_id"
+  add_index "relationships", ["id"], name: "index_relationships_on_id"
+  add_index "relationships", ["to_id"], name: "index_relationships_on_to_id"
 
 end

@@ -3,7 +3,15 @@
 require 'spec_helper'
 
 describe Post do
-    let(:long_string_1001) {'a'*1001}
+  let(:long_string_1001) {'a'*1001}
+
+  let(:reply_to) { Post.create(body: "reply_to") }
+  let(:reply_from) { Post.create(body: "reply_from") }
+  let(:relationship) { reply_to.relationships.build(from_id: reply_from.id) }
+
+  it {should respond_to(:reply_to)}
+  it {should respond_to(:reply_from)}
+
   describe "#create" do
     it "should have body text" do
       Post.create(body: 'hoge')
@@ -71,6 +79,36 @@ describe Post do
 
     it "should have board" do
       expect(post.board).to be_present
+    end
+  end
+
+  describe "#reply!" do
+    let(:replied_post) {Post.create(body: "replied_post")}
+
+    it{should respond_to(:reply!)}
+
+    it "should create new Post" do
+      expect{reply_from.reply!(replied_post.id)}.to change{Relationship.count}.by(1)
+    end
+
+    context "After it reply" do
+      before do
+        reply_from.reply!(replied_post.id)
+      end
+
+      it "should have reply_to" do
+        expect(reply_from.reply_to).to eq(replied_post)
+      end
+    end
+
+    context "After it is replied" do
+      before do
+        reply_from.reply!(replied_post.id)
+      end
+
+      it "should have reply_to" do
+        expect(replied_post.reply_from.first).to eq(reply_from)
+      end
     end
   end
 end
