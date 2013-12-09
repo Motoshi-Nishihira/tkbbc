@@ -64,4 +64,13 @@ describe Post do
       expect{@post.destroy}.to change{Post.count}.by(-1)
     end
   end
+
+  describe "#board" do
+    let(:board) {Board.create(title: 'huga')}
+    let(:post) {Post.create(body: 'hoge', board_id: board.id)}
+
+    it "should have board" do
+      expect(post.board).to be_present
+    end
+  end
 end
