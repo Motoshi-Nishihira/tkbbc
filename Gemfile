@@ -52,3 +52,5 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'rails-i18n', '~> 4.0.0' # For 4.0.x
